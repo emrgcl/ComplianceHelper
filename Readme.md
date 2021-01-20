@@ -5,9 +5,9 @@ The script is developed to help analyzing the collected data compliance. The scr
 Every Table has two sheets,
 
 1. **Schema:** This sheet includes the column information, including name, type and description.
-    ![Schema Sheet](/Scripts/Report-LAMetaData/images/schemasheet.png)
+    ![Schema Sheet](/images/schemasheet.png)
 1. **Data:** Sample data to help better analyizing compliancy. 
-    ![Data Sheet](/Scripts/Report-LAMetaData/images/datasheet.png)
+    ![Data Sheet](/images/datasheet.png)
 
 # Important Note & disclaimer
 This script is just a helper, the data might be missing or incomplete and does not intend to meet any regulatory but is a tool to help understanding what the collected data is.
