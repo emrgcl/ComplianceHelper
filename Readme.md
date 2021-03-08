@@ -14,7 +14,7 @@ This script is just a helper, the data might be missing or incomplete and does n
 
 # How to Run the script
 
-A sample exuection is as below. Script has verbose logging option which allows quick troubleshooting.
+A sample execution is as below. Script has verbose logging option which allows quick troubleshooting.
 
 ```
     .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -AppId yyyyy -logAnalyticsWorkspaceId zzzzzz -AppSecret GZxxx -SampleCount 10
