@@ -63,9 +63,9 @@ One of the API's in the script utilizes appid and secrets created for the id
 
 ## Required Modules
 
-The script requires the following modules. Please install them if not already installed before runnign the script.
+The script requires the following modules. Please install them if not already installed before running the script.
 
-- Az.accounts ('2.2.3' and above)
+- Az.accounts (2.2.3 and above)
 - Az.OperationalInsights (2.1.0 and above)
 - ImportExcel (7.1.1 and above)
 
