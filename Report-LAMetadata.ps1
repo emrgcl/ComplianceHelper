@@ -4,7 +4,7 @@
 .DESCRIPTION
     Script to help analyizing compliance of the data collected.
 .EXAMPLE
-    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -AppId yyyyy -logAnalyticsWorkspaceId zzzzzz -AppSecret GZxxx -SampleCount 10
+    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -AppId zzzz -logAnalyticsWorkspaceId ttttttt -AppSecret GZxxx -SampleCount 10
     
     VERBOSE: [1/17/2021 4:09:16 PM] Script Started.
     WARNING: TenantId '72f988bf-86f1-41af-91ab-2d7cd011db47' contains more than one active subscription. First one will be selected for further use. To select another subscription, use Set-AzContext.
