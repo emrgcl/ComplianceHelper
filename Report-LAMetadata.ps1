@@ -31,6 +31,8 @@
 Param(
     [Parameter(Mandatory=$true)]    
     [string]$TenantId,
+    [Parameter(Mandatory = $true)]
+    [string]$SubscriptionID,
     [Parameter(Mandatory=$true)]
     [string]$AppId,
     [Parameter(Mandatory=$true)]
@@ -151,6 +153,7 @@ Write-Verbose "[$(Get-Date -Format G)] Script Started."
 
 #Requires -Module @{ModuleName='Az.Accounts';ModuleVersion ='2.2.3'},@{ModuleName='Az.OperationalInsights';ModuleVersion ='2.1.0'},@{ModuleName='ImportExcel';ModuleVersion ='7.1.1'}
 Connect-AzAccount | Out-Null
+Set-AzContext -SubscriptionID $SubscriptionID | Out-Null
 $Metadata = Get-LAMetadata -TenantId $TenantId -AppId $AppId -logAnalyticsWorkspaceId $logAnalyticsWorkspaceId -AppSecret $AppSecret
 
 Foreach ($TableGroup in $Metadata.tableGroups) {
