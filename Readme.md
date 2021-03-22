@@ -17,7 +17,7 @@ This script is just a helper, the data might be missing or incomplete and does n
 A sample execution is as below. Script has verbose logging option which allows quick troubleshooting.
 
 ```
-    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -AppId yyyyy -logAnalyticsWorkspaceId zzzzzz -AppSecret GZxxx -SampleCount 10
+    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -AppId zzzz -logAnalyticsWorkspaceId ttttttt -AppSecret GZxxx -SampleCount 10
     
     VERBOSE: [1/17/2021 4:09:16 PM] Script Started.
     WARNING: TenantId 'xxxx' contains more than one active subscription. First one will be selected for further use. To select another subscription, use Set-AzContext.
@@ -44,6 +44,7 @@ A sample execution is as below. Script has verbose logging option which allows q
 |Parameter| Notes|
 |-----|----|
 |TenantID|Pretty self explanatory. The ID of the Tenant|
+|SubscriptionID|Pretty self explanatory. The ID of the Subscription|
 |AppID| the id of the app registeration. Please see App Registeration in Requirements below.|
 |AppSecret| the client scret created for the Application. Please see App Registeration in Requirements below.|
 |logAnalyticsWorkspaceId|Pretty self explanatory. The ID of the Workspace|
