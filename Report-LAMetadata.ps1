@@ -7,12 +7,6 @@
     .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -logAnalyticsWorkspaceId ttttttt -SampleCount 10
     
     VERBOSE: [1/17/2021 4:09:16 PM] Script Started.
-    WARNING: TenantId '72f988bf-86f1-41af-91ab-2d7cd011db47' contains more than one active subscription. First one will be selected for further use. To select another subscription, use Set-AzContext.
-    WARNING: Unable to acquire token for tenant '11da1590-20b4-4904-9318-a727a2a59a24'
-    VERBOSE: POST https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token with -1-byte payload
-    VERBOSE: received 1418-byte response of content type application/json; charset=utf-8
-    VERBOSE: GET https://api.loganalytics.io/v1/workspaces/4d7a58f4-dea3-4478-bc0d-c33542a77425/metadata with 0-byte payload
-    VERBOSE: received 418084-byte response of content type application/json; charset=utf-8
     VERBOSE: Started Working on oms/ChangeTracking with 2 tables which will be saved into 'C:\Temp\LASchema\Change Tracking.xlsx'
     VERBOSE: Querying metadata and sampledata for table ConfigurationChange with ID t/ConfigurationChange
     VERBOSE: Invoking query: 'ConfigurationChange | take 10'
