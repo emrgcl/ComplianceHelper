@@ -4,7 +4,7 @@
 .DESCRIPTION
     Script to help analyizing compliance of the data collected.
 .EXAMPLE
-    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -AppId zzzz -logAnalyticsWorkspaceId ttttttt -AppSecret GZxxx -SampleCount 10
+    .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -logAnalyticsWorkspaceId ttttttt -SampleCount 10
     
     VERBOSE: [1/17/2021 4:09:16 PM] Script Started.
     WARNING: TenantId '72f988bf-86f1-41af-91ab-2d7cd011db47' contains more than one active subscription. First one will be selected for further use. To select another subscription, use Set-AzContext.
@@ -15,9 +15,9 @@
     VERBOSE: received 418084-byte response of content type application/json; charset=utf-8
     VERBOSE: Started Working on oms/ChangeTracking with 2 tables which will be saved into 'C:\Temp\LASchema\Change Tracking.xlsx'
     VERBOSE: Querying metadata and sampledata for table ConfigurationChange with ID t/ConfigurationChange
-    VERBOSE: Invoking query: 'ConfigurationChange | take 100'
+    VERBOSE: Invoking query: 'ConfigurationChange | take 10'
     VERBOSE: Querying metadata and sampledata for table ConfigurationData with ID t/ConfigurationData
-    VERBOSE: Invoking query: 'ConfigurationData | take 100'
+    VERBOSE: Invoking query: 'ConfigurationData | take 10'
     .
     .
     .
@@ -33,11 +33,6 @@ Param(
     [string]$TenantId,
     [Parameter(Mandatory = $true)]
     [string]$SubscriptionID,
-    [Parameter(Mandatory=$true)]
-    [string]$AppId,
-    [Parameter(Mandatory=$true)]
-    [string]$AppSecret,
-    [Parameter(Mandatory=$true)]
     [string]$logAnalyticsWorkspaceId,
     [ValidateScript({Test-Path $_})]
     [Parameter(Mandatory=$true)]
@@ -94,24 +89,15 @@ Function Get-LAMetadata {
     [CmdletBinding()]
     Param(
         [string]$TenantId,
-        [string]$AppId,
-        [string]$AppSecret,
         [string]$logAnalyticsWorkspaceId
     )
-        $loginURL = "https://login.microsoftonline.com/$TenantId/oauth2/token"
-        $resource = "https://api.loganalytics.io"
-    
-    $authbody = @{
-        grant_type = "client_credentials"
-        resource = $resource
-        client_id = $AppId
-        client_secret = $AppSecret 
-    }
-    
-    $oauth = Invoke-RestMethod -Method Post -Uri $loginURL -Body $authbody
-    $headerParams = @{'Authorization' = "$($oauth.token_type) $($oauth.access_token)" }
+
+$headers = @{
+    'Authorization' = "Bearer $LogAnalyticsToken"
+    'Content-Type' = 'application/json'
+}
     $logAnalyticsBaseURI = "https://api.loganalytics.io/v1/workspaces"
-    invoke-RestMethod -method Get -uri "$($logAnalyticsBaseURI)/$($logAnalyticsWorkspaceId)/metadata" -Headers $headerParams
+    invoke-RestMethod -method Get -uri "$($logAnalyticsBaseURI)/$($logAnalyticsWorkspaceId)/metadata" -Headers $headers
 }
 Function Get-TableMetadata {
     [CmdletBinding()]
@@ -152,9 +138,8 @@ $ScriptStart = Get-Date
 Write-Verbose "[$(Get-Date -Format G)] Script Started."
 
 #Requires -Module @{ModuleName='Az.Accounts';ModuleVersion ='2.2.3'},@{ModuleName='Az.OperationalInsights';ModuleVersion ='2.1.0'},@{ModuleName='ImportExcel';ModuleVersion ='7.1.1'}
-Connect-AzAccount | Out-Null
-Set-AzContext -SubscriptionID $SubscriptionID | Out-Null
-$Metadata = Get-LAMetadata -TenantId $TenantId -AppId $AppId -logAnalyticsWorkspaceId $logAnalyticsWorkspaceId -AppSecret $AppSecret
+Connect-AzAccount -Tenant $TenantId -Subscription $SubscriptionID | Out-Null
+$Metadata = Get-LAMetadata -TenantId $TenantId -logAnalyticsWorkspaceId $logAnalyticsWorkspaceId
 
 Foreach ($TableGroup in $Metadata.tableGroups) {
     # SomeGroups dont have displayname use name instead
@@ -179,7 +164,7 @@ Foreach ($TableGroup in $Metadata.tableGroups) {
         $DataToExort = @{
 
             "$($SheetPrefix)_Schema" = {Get-TableMetadata -Metadata $Metadata -TableId $TableID}
-            "$($SheetPrefix)_Data" = {Get-TableSampleData -TableName $TableName -SampleCount 100}
+            "$($SheetPrefix)_Data" = {Get-TableSampleData -TableName $TableName -SampleCount $SampleCount }
         }
         Export-MultipleExcelSheets -AutoSize $Path $DataToExort
     }

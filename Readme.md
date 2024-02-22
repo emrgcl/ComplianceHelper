@@ -14,7 +14,19 @@ This script is just a helper, the data might be missing or incomplete and does n
 
 # How to Run the script
 
+ ## Parameters Explained
+|Parameter| Notes|
+|-----|----|
+|TenantID|Pretty self explanatory. The ID of the Tenant|
+|SubscriptionID|Pretty self explanatory. The ID of the Subscription|
+|logAnalyticsWorkspaceId|Pretty self explanatory. The ID of the Workspace|
+|Exportpath| Where to export the files?. IT should be better to specify an empty folder|
+|SampleCount| defaults to 100, specify if more or less number of rows needed|  
+
+## Sample Execution
 A sample execution is as below. Script has verbose logging option which allows quick troubleshooting.
+
+
 
 ```
     .\Report-LAMetadata.ps1 -ExportPath C:\Temp\LASchema -Verbose -TenantId xxxx -SubscriptionID yyyyy -AppId zzzz -logAnalyticsWorkspaceId ttttttt -AppSecret GZxxx -SampleCount 10
@@ -41,31 +53,17 @@ A sample execution is as below. Script has verbose logging option which allows q
     VERBOSE: [1/17/2021 4:21:10 PM] Script Ended.Duration: 714 seconds.
 ```
 
-|Parameter| Notes|
-|-----|----|
-|TenantID|Pretty self explanatory. The ID of the Tenant|
-|SubscriptionID|Pretty self explanatory. The ID of the Subscription|
-|AppID| the id of the app registeration. Please see App Registeration in Requirements below.|
-|AppSecret| the client scret created for the Application. Please see App Registeration in Requirements below.|
-|logAnalyticsWorkspaceId|Pretty self explanatory. The ID of the Workspace|
-|Exportpath| Where to export the files?. IT should be better to specify an empty folder|
-|SampleCount| defaults to 100, specify if more or less number of rows needed|  
+
 
 # Requirements
 
-## App Registeration
-One of the API's in the script utilizes appid and secrets created for the id 
-1. Create an appregistration in portal
-1. Note the "Application (Client) ID" in Overivew.
-1. Create a secret and note the secret (we will use as a paramter to the script.)
-    1. Create new client secret under "Certificates & Secrets"
-    1. Collect the value immediately. only visible during the creation.
-1. In the resource group access control grant Log Analytics Contributor for the created Application  
+## Rbac
+You need to be a log analytics contributor
 
 ## Required Modules
 
 The script requires the following modules. Please install them if not already installed before running the script.
-
+- Powershell 7 and above
 - Az.accounts (2.2.3 and above)
 - Az.OperationalInsights (2.1.0 and above)
 - ImportExcel (7.1.1 and above)
